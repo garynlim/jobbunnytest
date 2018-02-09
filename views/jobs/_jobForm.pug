@@ -1,0 +1,214 @@
+//- locals to be passed to this partial from controller: jobProfile
+mixin selectOptionItems(items)
+  each item in items
+    option(value=item)= item
+
+form.form-horizontal(action="/api/jobs", method="post", enctype="multipart/form-data")
+  if jobProfile == 'advanced'
+    .form-group
+      label.control-label.col-sm-2.small COVER IMAGE
+      |
+      |
+      .col-sm-10
+        input.form-control(type="file", name="coverImage")
+    |
+    br
+  h4.strong.green-font 1. YOUR BASIC JOB DETAILS
+  br
+  |
+  .form-group
+    label.control-label.col-sm-2.small JOB TITLE
+    |
+    |
+    .col-sm-10
+      input.form-control(type="text", placeholder="Enter job title", name="jobTitle", required)
+  |
+  .form-group
+    label.control-label.col-sm-2.small NUMBER OF HIRES
+    |
+    |
+    .col-sm-10
+      input.form-control(type="number", placeholder="How many people do you need to hire ?", name="requiredNumber" required)
+  .form-group
+    label.control-label.col-sm-2.small JOB TYPE
+    |
+    .col-sm-10
+      select.form-control(name='jobType' id='job-type' required)
+        + selectOptionItems(['Full-time', 'Part-time'])
+  |
+  .form-group
+    label.control-label.col-sm-2.small INDUSTRY
+    span
+    |
+    |
+    .col-sm-10
+      select.form-control(name='jobIndustry' id='job-industry' required)
+        + selectOptionItems(["Accounting / Finance", "Admin / HR", "Sales / Marketing", "Arts Design Media", "Computer / Technology", "Training and education", "Engineering", "Service / Logistics"])
+  |
+  .form-group
+    label.control-label.col-sm-2.small SALARY TYPE
+    |
+    |
+    .col-sm-10
+      select.form-control(name="salaryType" required)
+        + selectOptionItems(['Per Hour', 'Per Month', 'Per Project'])
+  |
+  .form-group
+    label.control-label.col-sm-2.small SALARY
+    |
+    |
+    .col-sm-10
+      input.form-control(type="number", placeholder="How much are you willing to pay?", name="salary" required)
+  |
+  .form-group
+    label.control-label.col-sm-2.small WORKING PERIOD
+    .col-sm-5
+      small.strong START DATE
+      .input-group.datepicker
+        input(type="date" name="startDate" id="start-date" required)
+    .col-sm-5#end-date-wrapper
+      small.strong END DATE
+      .input-group.datepicker
+        input(type="date" name="endDate" id="end-date")
+  |
+  .form-group
+    label.control-label.col-sm-2.small WORKING DAYS
+    |
+    |
+    .col-sm-10
+      select.form-control(name='workPeriod' required)
+        + selectOptionItems(['Weekdays', 'Weekends', 'Both weekdays and weekends'])
+  |
+  .form-group#total-hours-wrap
+    label.control-label.col-sm-2.small TOTAL HOURS
+    |
+    |
+    .col-sm-10
+      input.form-control(type="number", placeholder="How many manhours total?" id="total-hours" name="totalHours")
+  |
+  .form-group#working-hours-wrap
+    label.control-label.col-sm-2.small.strong START TIMING
+    |
+    .col-sm-4
+      .input-group.clockpicker
+        input.form-control(type="text", value="09:30", name="startTime")
+        |
+        span.input-group-addon
+          span.glyphicon.glyphicon-time
+    label.control-label.col-sm-2.small.strong END TIMING
+    |
+    .col-sm-4
+      .input-group.clockpicker
+        input.form-control(type="text", value="09:30", name="endTime")
+        |
+        span.input-group-addon
+          span.glyphicon.glyphicon-time
+  |
+  .form-group
+    label.control-label.col-sm-2.small EXPIRATION DATE OF JOB
+    |
+    |
+    .col-sm-10
+      select.form-control(name='jobExpiration' id='job-expiration' required)
+        option(value='start-period') At the start of working period
+        |
+        option(value='end-period') At the end of working period
+        |
+        option(value='two-months') After 2 months
+  |
+  .form-group
+    label.control-label.col-sm-2.small LOCATION OF WORK
+    |
+    |
+    .col-sm-10
+      input.form-control(type="text", placeholder="Work location", name="location" required)
+  |
+  .form-group
+    label.control-label.col-sm-2.small LOCATION REGION
+    |
+    |
+    .col-sm-10
+      select.form-control(name='workRegion' required)
+        + selectOptionItems(['North', 'West', 'East', 'Central', 'Central Business District'])
+  |
+  br
+  h4.strong.green-font 2. ROLES AND RESPONSIBILITIES
+  br
+  |
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong BACKGROUND OF JOB
+    |
+    |
+    .col-sm-10
+      textarea.form-control(rows="5", placeholder="Give a description of what your company does or a message to attract employees", name="description" required)
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong RESPONSIBILITIES
+    |
+    |
+    .col-sm-10
+      textarea.form-control(rows="5", placeholder="What are your employees expected to do ?", name="jobRole")
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong REQUIREMENTS
+    |
+    |
+    .col-sm-10
+      textarea.form-control(rows="5", placeholder="What basic requirements should your employee have ?", name="requirement")
+  br
+  h4.strong.green-font 3. CONTACT INFORMATION
+  br
+  |
+  .form-group
+    label.control-label.col-sm-2.small ARE YOU EMPLOYING FOR YOURSELF?
+    |
+    |
+    .col-sm-10
+      select.form-control(name='selfEmployer' required)
+        option(value='true') Yes
+        |
+        option(value='false') No
+  |
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong COMPANY NAME
+    |
+    |
+    .col-sm-10
+      input.form-control(type="text", name="companyName" required)
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong COMPANY WEBSITE
+    |
+    |
+    .col-sm-10
+      input.form-control(type="url", name="companyWebsite")
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong RECRUITER NAME
+    |
+    |
+    .col-sm-10
+      input.form-control(type="text", name="employerName")
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong RECRUITER HANDPHONE
+    |
+    |
+    .col-sm-10
+      input.form-control(type="text", , name="employerPhone")
+  |
+  .form-group
+    label.control-label.col-sm-2.small.strong RECRUITER EMAIL
+    |
+    |
+    .col-sm-10
+      input.form-control(type="email", name="employerEmail")
+  if session.user
+    input(type="text", name="employerId", value=session.user._id, hidden)
+    input(type="text", name="employerEmail", value=session.user.email, hidden)
+  button.btn-lg.btn-warning.pull-right(type='submit') Post and See Available Employees
+br
+br
+

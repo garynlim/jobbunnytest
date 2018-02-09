@@ -1,0 +1,71 @@
+- var carrot_stats = session.carrots
+- console.log(carrot_stats)
+nav.navbar.navbar-default.navbar-fixed
+  .container-fluid
+    .navbar-header
+      if session.user.userType === 'admin'
+        a.navbar-brand.hidden-md.hidden-lg(href='/admin')
+          span Overview
+      if session.user.userType === 'employer'
+        a.navbar-brand.hidden-md.hidden-lg(href='/employer')
+          span Overview
+      button#navigation-dropdown.navbar-toggle(data-toggle='dropdown' type='button')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      #dropdown-nav-menu.dropdown-menu.pull-right(aria-labelledby='navigation-dropdown')
+        .pad20
+          a.text-bold.text-danger(href='/logout')
+            i.fa.fa-power-off
+            span Log out
+      .collapse.navbar-collapse.pad10
+        ul.nav.navbar-nav
+          if session.user.userType == 'employer'
+            li
+              a(href='/employer/notifications')
+                .notification-icon
+                  i.fa.fa-bars
+                  if session.stats.notificationsCount > 0
+                    span.badge= session.stats.notificationsCount
+          li
+            a(href=session.user.userType == 'admin' ? '/admin' : '/employer', style="margin-top: 0px;")
+              img.pull-left(height='45' length='45' src="/img/logo.png")
+              .pull-left.left10
+                strong Jobbunny
+                p Recruiting Assistant
+
+          if session.user.userType == 'employer'
+            li.left20
+              a(href='/employer/jobs/new')
+                span.red-icon Post Job
+          li.left20(role='presentation')
+            a(href='/about') FAQ
+          li.left20(role='presentation')
+            a(href='/contact') Contact Us
+          li
+            a(href='/logout').text-danger
+              i.fa.fa-power-off
+              span  Log out
+    if session.user.userType == 'employer'
+      .pull-right.hidden-xs.top20
+        a(href='#').hover
+          .tooltip.pad10
+            .strong= 'Available Carrots: ' + (carrot_stats ? carrot_stats.available : 'N/A')
+            .strong= 'Pending Carrots: ' + (carrot_stats ? carrot_stats.pending : 'N/A')
+            .strong= 'Total Carrots: ' + (carrot_stats ? carrot_stats.total : 'N/A')
+            form(action='/employer/buy-carrots' method='get')
+              button.btn.btn-orange(href='/employer/buy-carrots') Purchase carrots
+          img.pull-left(height='50' length='50' src="/img/carrot.png")
+          .pull-left.right10.black
+            span.strong= carrot_stats ? carrot_stats.available : 'N/A'
+            p Available
+        if session.user.userType == 'employer' && session.stats && session.stats.invitationsCount && session.stats.invitationsCount > 0
+          i.fa.fa-2x.fa-send.pull-left.top10
+          .pull-left.left10
+            span.strong= session.stats.invitationsCount
+            p Invited
+
+//- script.
+//-   $("#carrots-hover[title]").tooltips();
+

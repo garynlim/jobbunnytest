@@ -1,0 +1,93 @@
+//- side nav
+mixin userTitle(user)
+  - var tmp = user.email;
+  if user.firstName
+    - tmp = user.firstName
+  if user.lastName
+    - tmp = tmp+' '+user.lastName
+  .strong.medium= tmp
+
+
+.sidebar(data-color='#303135')
+  .sidebar-wrapper
+    if session.user.userType === 'admin'
+      .logo.align-center
+        img(height='75' length='75' src="/img/logo.png")
+        .top10.strong.medium Administrator
+        .medium= session.user.companyName
+        a(href='/admin/settings')
+          i.small Edit Account Settings
+      ul.nav.list-group
+        li.left20 OPERATIONS
+        li(class=/\/admin\/employers/.test(currentUrl) ? "active" : "")
+          a(href='/admin/employers')
+            i.fa.fa-building.medium
+            span Employer Management
+        li(class=/\/admin\/workers/.test(currentUrl) ? "active" : "")
+          a(href='/admin/workers')
+            i.fa.fa-users.medium
+            span Employee management
+        li(class=/\/admin\/jobs/.test(currentUrl) ? "active" : "")
+          a(href='/admin/jobs')
+            i.fa.fa-briefcase.medium
+            span Job Management
+        br
+        li.left20 ANALYTICS
+        li(class=currentUrl === "/admin" ? "active" : "")
+          a(href='/admin')
+            i.fa.fa-newspaper-o.medium
+            span Misson Control
+        li(class=currentUrl === "/admin/carrots" ? "active" : "")
+          a(href='/admin/carrots')
+            i.fa.fa-usd.medium
+            span Carrot Analytics
+        li(class=currentUrl === "/admin/bot" ? "active" : "")
+          a(href='/admin/bot')
+            i.fa.fa-comments-o.medium
+            span Chatbot Analytics
+    else
+      .logo.align-center
+        if session.user.profilePic
+          img.img-circle(height='75' length='75' src=session.user.profilePic)
+        else
+          img.img-circle(height='75' length='75' src="/img/logo.png")
+        +userTitle(session.user)
+        .medium= session.user.companyName
+        a(href='/employer/settings')
+          i.small Edit Account Settings
+      ul.nav.list-group
+        li.left20 MAIN
+        li(class=currentUrl === "/employer" ? "active" : "")
+          a(href='/employer')
+            i.fa.fa-newspaper-o.medium
+            span Overview
+        li(class=/\/employer\/jobs/.test(currentUrl) ? "active" : "")
+          a(href='/employer/jobs')
+            i.fa.fa-briefcase.medium
+            span Job Management
+        li(class=/\/employer\/workers/.test(currentUrl) ? "active" : "")
+          a(href='/employer/workers')
+            i.fa.fa-users.medium
+            span Employee management
+        br
+        li.left20 CARROT
+        li(class=currentUrl === "/employer/buy-carrots" ? "active" : "")
+          a(href='/employer/buy-carrots')
+            i.fa.fa-credit-card.medium
+            span Purchase Carrots
+        li(class=currentUrl === "/employer/farm-carrots" ? "active" : "")
+          a(href='/employer/farm-carrots')
+            i.fa.fa-coffee.medium
+            span Farm Carrots
+        //- display notifications only on dash
+        if currentUrl == '/employer' && notifications.length > 0
+          hr
+          li.left20 NOTIFICATIONS
+          each notification in notifications
+            li
+              a(href=notification.onClickPath+'?notificationId='+notification._id)
+                .row
+                  .col-md-2
+                    i.fa.fa-bell.medium
+                  .col-md-10
+                    span= notification.message

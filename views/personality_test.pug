@@ -1,0 +1,19 @@
+extends layout
+
+block metas
+    meta(name='og:image', content=userData["profilePic"])
+    meta(name='og:title', content=userData["first name"] + '\'s personality trait is - ' + userData["personality"]["primary"]["name"].toUpperCase())
+    meta(name='og:description', content=userData["personality"]["primary"]["trait"])
+
+block content
+  // Hero
+  .container-fluid
+    .hero
+      img(src=userData['profilePic'], style='padding-top:1em;height:100%;width:200px')
+      br
+      h2=(userData['first name'] + '\'s personality trait is ' + userData['personality']['primary']['name'].toUpperCase() )
+      h4=(userData['personality']['primary']['trait']) 
+      br
+      a.btn-sm.btn-warning(href='https://m.me/jobbunny?ref=personality_quiz') Find your personality!
+block scripts
+  script(type='text/javascript', src='/js/offerjob.js')

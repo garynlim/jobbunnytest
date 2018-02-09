@@ -1,0 +1,30 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(charset='utf-8')
+
+    //- stylesheets
+    link(href='/css/bootstrap.css', rel='stylesheet', type="text/css")
+    link(href='/css/admin.css', rel='stylesheet', type="text/css")
+    link(href='/css/bootstrap-clockpicker.min.css', rel='stylesheet')
+    link(href='/css/font-awesome.css', rel='stylesheet')
+  body
+    .wrapper
+      //- top nav
+      include shared/_side_navigation.pug
+      .main-panel
+        include shared/_top_navigation.pug
+        .content
+          include shared/alerts
+          //- content
+          block content
+    block modal
+    script(src='/js/jquery-3.2.1.min.js')
+    script(type='text/javascript', src='/js/bootstrap.js')
+    script(type='text/javascript', src='http://cdn.jsdelivr.net/momentjs/latest/moment.min.js')
+    //- Date picker
+    script(type='text/javascript', src='http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js')
+    script(type='text/javascript', src='/js/bootstrap-clockpicker.min.js')
+    block scripts

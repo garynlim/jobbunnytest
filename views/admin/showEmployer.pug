@@ -1,0 +1,40 @@
+extends ../cmsLayout
+
+mixin userFullName(user)
+  - var tmp = 'N/A';
+  if user.firstName
+    - tmp = user.firstName
+  if user.lastName
+    - tmp = tmp+' '+user.lastName
+  h3.strong.capitalize= tmp
+
+block content
+  .container-fluid
+    .content-wrap
+      p
+        span.large.strong Employer Profile
+      .col-md-12
+        .row.card.pad20
+          .col-md-3
+            .align-center
+              if employer.profilePic
+                img.img-thumbnail(height='75' length='75' src=employer.profilePic)
+              else
+                img.img-thumbnail(height='75' length='75' src="/img/logo.png")
+          .col-md-9
+            +userFullName(employer)
+            p.medium.strong Email
+            p= employer.email
+            p.medium.strong Company Name
+            p= employer.companyName || 'N/A'
+            p.medium.strong Date Joined
+            p= moment(employer.createdAt).format('MM/DD/YYYY')
+            p.medium.strong Jobs Created
+            p= jobsCount
+            p.medium.strong Invitations Sent
+            p= invitationsCount
+            p.medium.strong Employees Shortlisted
+            p= shortlistedCount
+            p.medium.strong Carrots
+            p= 'Total : '+employer.carrots.total
+

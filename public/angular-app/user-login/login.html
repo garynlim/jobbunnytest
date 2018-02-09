@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <h1 class="align-center">{{ vm.title }}</h1>
+  <!-- alert/error displaying code in alerts/alerts-directive.html -->
+  <app-alert></app-alert>
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <form ng-if="!vm.isLoggedIn()" ng-submit="vm.login()">
+        <div class="form-group" ng-class="{ 'has-error': vm.error }">
+          <label for="username">Username:</label>
+          <input type="text" class="form-control input-sm" placeholder="Username" ng-model="vm.username" autocapitalize="none">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control input-sm" placeholder="Password" ng-model="vm.password" autocapitalize="none">
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Login</button>
+      </form>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>

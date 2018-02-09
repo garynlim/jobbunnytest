@@ -1,0 +1,257 @@
+/* App default configs */
+$jb-light-yellow: #FDBF2D;
+$jb-dark-yellow: #FAAB31;
+$light-green: #2CAA1F;
+$dark-green: #257F19;
+$button-gray: #A5A5A5;
+$blue: #1ca4fc;
+$orange: #fb9047;
+$gray: #e3e3e3;
+
+@mixin colored-btn($color) {
+  // min-width: 130px !important;
+  border-radius: 4px !important;
+  padding: 8px;
+  font-style: 1em;
+  color: #fff !important;
+  border: none !important;
+  background-color: $color !important;
+}
+
+.btn-blue { @include colored-btn($blue); }
+.btn-orange { @include colored-btn($orange); }
+.btn-green { @include colored-btn($dark-green); }
+.btn-gray { @include colored-btn($button-gray); }
+
+.filter {
+  span {
+    margin-right: 5px;
+    font-weight: 600;
+    color: $gray;
+    &:after { content: ', '; }
+    &:last-child:after { content: ''; }
+  }
+}
+
+body{
+  height: 100%;
+  color: #000;
+}
+
+.yellow-bg {
+  background-color: $jb-light-yellow;
+}
+
+.capitalize {
+  &:first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.black-font, .black { color: #000; }
+.green-font, .green { color: $light-green; }
+
+.white-bg {
+  background-color: #fff;
+  color: inherit;
+}
+
+.banner-cover {
+  background-image: url("/img/home-bg.jpg");
+  background-position: center center;
+  background-size: cover;
+  height: 30%;
+}
+
+.height50 {
+  height: 200px;
+}
+
+.icon-wrapper {
+  position: relative;
+  float: left;
+}
+
+*.icon-blue {
+  color: #0088cc
+}
+
+*.icon-grey {
+  color: gray;
+}
+
+// i {
+//   width: 100px;
+//   text-align: center;
+//   vertical-align: middle;
+// }
+
+.badge {
+  background: red;
+  width: auto;
+  height: auto;
+  margin: 0;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: -8px;
+  padding: 5px;
+}
+
+
+.left { float: left !important; }
+.right { float: right !important; }
+
+.align-left { text-align: left !important; }
+.align-center { text-align: center !important; }
+.align-right { text-align: right !important; }
+
+.top10 { margin-top: 10px !important; }
+.top20 { margin-top: 20px !important; }
+.bottom10 { margin-bottom: 10px !important; }
+.right10 { margin-right: 10px !important; }
+.left10 { margin-left: 10px !important; }
+.left20 { margin-left: 20px !important; }
+.top-padding0 { padding-top: 0px !important; }
+.pad-right10 { padding-right: 10px !important; }
+
+.large { font-size: 2em !important; }
+.medium { font-size: 1.3em !important; }
+.normal { font-weight: normal; }
+.strong { font-weight: 700 !important; }
+
+.job-item {
+  padding: 20px;
+  margin-bottom: 10px;
+  border: 1px solid $gray;
+  a {
+    color: red;
+    &:hover { color: #196aae; }
+  }
+}
+
+.custom-link {
+  color: #000;
+  &:hover { color: #196aae; }
+}
+
+.btn-rectangle {
+  border-radius: 1px;
+}
+
+#search-field {
+  height: 50px;
+  border-color: #FFF7E5;
+  background-color: $jb-dark-yellow;
+}
+#search-field::placeholder {
+  font-size: 1.4em;
+  color: #FFF7E5;
+}
+
+#search-button {
+  width: 150px;
+  height: 50px;
+  font-size: 1.2em;
+  background-color: #FD9C28;
+  color: #FFF7E5;
+}
+
+.header {
+  color:#ffffff;
+  padding:0 4em 0 4em;
+  /*padding-left:4em;*/
+}
+
+#nav {
+  padding-top:2em;
+  font-size: 1.3em;
+}
+
+.hero {
+  color:#ffffff;
+  text-align: center;
+  margin-bottom: 3em;
+}
+
+
+.footer {
+  bottom:0px;
+  width: 100%;
+  height:5%;
+  background-color: $dark-green;
+  color:#ffffff;
+  text-align: center;
+  padding: 2em;
+  // margin-top:3em;
+}
+
+.postjob {
+  background: #fff;
+  // color: $gray;
+  padding-bottom: 3em;
+  a {
+    color: black;
+  }
+}
+
+.contentholder {
+  color: #fff;
+  // padding: 5em;
+  padding-left: auto;
+  padding-right: auto;
+}
+
+.employeecard{
+  background-color: #ffffff;
+  width:180px;
+  height:360px;
+  padding:2em;
+  color:#464646;
+  border: 2px solid #ececec ;
+  border-radius: 10px;
+}
+
+.employeeprofile{
+  background-color: #ffffff;
+  text-align: left;
+  width:80%;
+  height:100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding:2em;
+  padding-bottom: 5em;
+  color:#363636;
+  border: 2px solid #ececec ;
+  border-radius: 20px;
+}
+
+.employeeprofile img{
+  object-fit: cover;
+  object-position: center;
+  height: 150px;
+  width: 150px;
+  border: 2px solid #ececec ;
+  border-radius: 20px;
+}
+
+
+.employeecard img {
+  object-fit: cover;
+  border-radius: 20px;
+  object-position: center;
+  height: 100px;
+  width: 100px;
+}
+
+#salary {
+ color: #2ab400;
+}
+
+input {
+  color: black;
+}
+
+.click {
+  cursor: pointer;
+}

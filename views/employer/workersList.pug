@@ -1,0 +1,124 @@
+//- from the controller pass locals (job, workerFilters)
+extends ../cmsLayout
+
+mixin generateFilterURL(applied_filters, job_id, filter_type, filter)
+  - var filterURL = "/employer/workers?jobId="+job_id+'&'+filter_type+"="+filter;
+  - var filter_values = [];
+  if applied_filters.length > 0
+    each f in applied_filters
+      each applied_filter, applied_filter_type in f
+        - filter_values.push(applied_filter)
+        if applied_filter_type != filter_type
+          - filterURL = filterURL+"&"+applied_filter_type+"="+applied_filter;
+  a.gray(class=filter_values.indexOf(filter) > -1 ? "active-filter" : "", href=filterURL)= filter
+
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad10
+        .row
+          .col-md-5
+            .large.strong Employee Management
+          .col-md-7
+            form.form-inline(action='/employer/workers', method='get')
+              input.form-control(type='text', name='jobId', placeholder='Search by job ID')
+              button.form-control(type='submit')
+                i.fa.fa-search
+        //- if job does not exist, ask the user to search
+        if (job == null)
+          p Please enter Job Id to search
+        //- if job exists show employee management for that job
+        else
+          span.strong= 'Job ID: '
+          span.gray.strong= job._id + ', '
+          if workerFilters.length > 0
+            span.filter
+              each f in workerFilters
+                each filter, filter_type in f
+                  span= filter
+          br
+          br
+          .row
+            .col-md-3
+              p.strong= workersCount + '  matches'
+            .col-md-9
+              .pull-right
+                a.dropdown-toggle(href='#filters', 'data-toggle'='collapse', 'aria-expanded'=true)
+                  i.fa.fa-filter
+                  span FILTER
+          #filters.collapse.in
+            .row
+              .col-md-2
+                strong STATUS
+                ul.list-unstyled
+                  each filter in ['invited', 'applied', 'shortlisted', 'employed']
+                    li.top10
+                      +generateFilterURL(workerFilters, job._id, 'matchStatus', filter)
+              .col-md-2
+                strong GENDER
+                ul.list-unstyled
+                  each filter in ['male', 'female']
+                    li.top10
+                      +generateFilterURL(workerFilters, job._id, 'gender', filter)
+
+          each worker in workers
+            hr
+            a(href='/employer/workers/'+worker._id+'?jobId='+job._id)
+              .row.pad20
+                .col-md-2
+                  .align-center
+                    img.img-fit.img-circle(src=worker.profilePic, height='100', width='100')
+                .col-md-10
+                  .row
+                    .col-md-3
+                      .strong.capitalize.black= worker['first name'] + ' ' + worker['last name']
+                      p.green.strong= ' $'+worker.salaryHour
+                      p.strong.black= worker.gender
+                    .col-md-2
+                      strong.gray EXPERIENCE
+                      p.strong.black 2 years
+                    .col-md-3
+                      strong.gray LANGUAGE
+                      if worker.profile.languages.length > 0
+                        p.strong.black= worker.profile.languages
+                      else
+                        p.strong.black N/A
+                    .col-md-2
+                      strong.gray PERSONALITY
+                      if worker.personality
+                        if worker.personality.primary == 'A' || worker.personality.secondary == 'A'
+                          .strong.black Driver
+                        else if worker.personality.primary == 'B' || worker.personality.secondary == 'B'
+                          .strong.black Analytical
+                        else if worker.personality.primary == 'C' || worker.personality.secondary == 'C'
+                          .strong.black Amiable
+                        else if worker.personality.primary == 'D' || worker.personality.secondary == 'D'
+                          .strong.black Expressive
+                        else
+                          p.black N/A
+                      else
+                        p.black N/A
+                    .col-md-2
+                      .align-center
+                        if worker.match
+                          if worker.match.status == 'invited'
+                            a.btn.btn-red.btn-block(href='/api/matches/delete/'+worker.match._id) Cancel Invite
+                          else if worker.match.status == 'applied'
+                            a.btn.btn-yellow.btn-block(href='/api/matches/update/'+worker.match._id+'?matchStatus=shortlisted') Shortlist
+                          else if worker.match.status == 'shortlisted'
+                            span.badge-blue Shortlisted
+                          else if worker.match.status == 'employed'
+                            span.badge-yellow employed
+                        else
+                          a.btn.btn-green(href='/api/matches/'+session.user._id+'/'+job._id+'/'+worker._id+'?matchStatus=invited') Invite
+                          small.strong use TWO carrot
+                  .row
+                    .col-md-12
+                      .black
+                        if worker.profile.self_description
+                          p= worker.profile.self_description
+                        i.fa.fa-2x.fa-circle.right10
+                        span Invited to
+                        span.strong= ' Job ID '+job._id+' : '+job.jobTitle
+                        span= ' for '
+                        span.strong= job.companyName

@@ -1,0 +1,52 @@
+extends ../cmsLayout
+
+//- content
+block content
+  .content-wrap
+    .panel
+      if job.coverImage
+        img.img-fit(src=job.coverImage, style='height:300px;width:100%')
+        br
+      .pad20
+        p.large.strong.capitalize= job.jobTitle
+          span.left20
+            a(href='/admin/jobs/'+ job._id + '/edit')
+              i.fa.fa-edit.small.gray
+            a.left20(href='/api/jobs/delete/'+ job._id, onclick="return confirm('delete now?');")
+              i.fa.fa-trash.small.gray
+
+        .row
+          .col-md-9
+            .row
+              .col-md-9
+                i.fa.fa-map-marker
+                span= job.workRegion + ', ' + job.location
+                br
+                i.fa.fa-clock-o
+                span= job.jobType + ', ' + job.startTime + ' - ' + job.endTime + ', ' + job.workPeriod
+                br
+                i.fa.fa-calendar
+                span= 'Starts on ' + moment(job.startDate).format('MM/DD/YYYY') + ', Ends on' + moment(job.endDate).format('MM/DD/YYYY')
+                br
+                img.img-fit(src='/img/carrot.png', height='30', widht='30')
+                span= '10 carrots spent successfully'
+              .col-md-3
+                .pull-right.medium.green= ' $'+job.salary+'/'+job.salaryType
+
+            h4 Job Description
+            p= job.description || 'N/A'
+            h4 Duties and Responsibilities
+            p= job.jobRole || 'N/A'
+            h4 Requirements
+            p= job.requirement || 'N/A'
+
+          .col-md-3.border-left
+            .align-center.bottom10
+              p.gray EMPLOYER
+              a(href='/admin/employers/'+job.employerId)
+                .medium.strong= job.companyName.toUpperCase()
+                br
+                small.strong.top10.left10.pull-left= job.employerName
+            br
+
+

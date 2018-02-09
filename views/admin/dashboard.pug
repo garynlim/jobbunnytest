@@ -1,0 +1,135 @@
+extends ../cmsLayout
+
+block content
+  .container-fluid
+    .content-wrap
+      .large.strong User Traction
+      br
+      .row
+        .col-md-9
+          a(href='/admin/jobs')
+            .panel.pad20.btn-block
+              p.gray Graph
+              br
+              br
+              br
+              br
+              br
+              br
+              br
+
+            .row
+              .col-md-3
+                i.fa.fa-circle.light-green
+                span.black.small Employee Sign up
+              .col-md-3
+                i.fa.fa-circle.yellow
+                span.black.small Employer Sign up
+              .col-md-2
+                i.fa.fa-circle.orange
+                span.black.small Jobs posted
+              .col-md-2
+                i.fa.fa-circle.green
+                span.black.small Job Application
+              .col-md-2
+                i.fa.fa-circle.red
+                span.black.small Shortlisted
+        .col-md-3
+          .panel.pad20
+            p.strong.gray TODAY
+            .row
+              .col-md-2
+                p.strong= totalWorkersCount
+                p.strong= totalEmployersCount
+              .col-md-10
+                p.strong EMPLOYEES
+                p.strong EMPLOYERS
+            p.strong.gray THIS WEEK
+            .row
+              .col-md-2
+                p.strong= totalWorkersCount
+                p.strong= totalEmployersCount
+              .col-md-10
+                p.strong EMPLOYEES
+                p.strong EMPLOYERS
+      br
+      .large.strong Overall Conversation Funnels
+      br
+      .row
+        .col-md-12
+          p.strong EMPLOYERS
+        .col-md-3.col-xs-6
+          .row
+            .col-md-7
+              .panel.dash-card-yellow.align-center
+                h3.strong= totalEmployersCount
+                span Employers
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+        .col-md-3.col-xs-6
+          .row
+            .col-md-7
+              .panel.dash-card-dark-yellow.align-center
+                h3.strong= totalJobsCount
+                span Jobs Posted
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+        .col-md-3
+          .row
+            .col-md-7
+              .panel.dash-card-brown.align-center
+                h3.strong= matchesStats.invited
+                span Invitations Sent
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+        .col-md-3
+          .row
+            .col-md-7
+              .panel.dash-card-red.align-center
+                h3.strong= matchesStats.accepted
+                span Accepted Invitations
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+      .row
+        .col-md-12
+          p.strong EMPLOYEES
+        .col-md-3.col-xs-6
+          .row
+            .col-md-7
+              .panel.dash-card-green.align-center
+                h3.strong= totalWorkersCount
+                span Employees
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+        .col-md-3.col-xs-6
+          .row
+            .col-md-7
+              .panel.dash-card-dark-green.align-center
+                h3.strong= totalMatchesCount
+                span Jobs Applications
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+        .col-md-3
+          .row
+            .col-md-7
+              .panel.dash-card-purple.align-center
+                h3.strong= matchesStats.accepted
+                span Accepted Applications
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION
+        .col-md-3
+          .row
+            .col-md-7
+              .panel.dash-card-light-red.align-center
+                h3.strong= matchesStats.shortlisted
+                span Shortlisted
+            .col-md-5
+              p.align-center.large.gray 180%
+              strong.small CONVERSION

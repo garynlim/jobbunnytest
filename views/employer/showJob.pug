@@ -1,0 +1,93 @@
+extends ../cmsLayout
+
+mixin displayWorkersList(workers)
+  .row
+    each w in workers
+      .col-md-2
+        if w.profilePic
+          img.img-circle(height='25' length='25' src=w.profilePic)
+        else
+          img.img-circle(height='25' length='25' src="/img/logo.png")
+      .col-md-4
+        .strong.small= w['first name']+' '+w['last name']
+
+//- content
+block content
+  .content-wrap
+    .panel
+      if job.coverImage
+        img.img-fit(src=job.coverImage, style='height:300px;width:100%')
+        br
+      .pad20
+        p.large.strong.capitalize= job.jobTitle
+          span.left20
+            a(href='/employer/jobs/'+ job._id + '/edit')
+              i.fa.fa-edit.small.gray
+            a.left20(href='/api/jobs/delete/'+ job._id, onclick="return confirm('delete now?');")
+              i.fa.fa-trash.small.gray
+          span.left20
+            if job.jobStatus == 'open'
+              a.small.gray(href='/api/jobs/mark/'+job._id+'?status=completed') Mark as completed
+            else
+              a.small.gray(href='/api/jobs/mark/'+job._id+'?status=open') Mark as open
+
+        .row
+          .col-md-9
+            .row
+              .col-md-9
+                i.fa.fa-map-marker
+                span= job.workRegion + ', ' + job.location
+                br
+                i.fa.fa-clock-o
+                span= job.jobType + ', ' + job.startTime + ' - ' + job.endTime + ', ' + job.workPeriod
+                br
+                i.fa.fa-calendar
+                span= 'Starts on ' + moment(job.startDate).format('MM/DD/YYYY') + ', Ends on' + moment(job.endDate).format('MM/DD/YYYY')
+                br
+                img.img-fit(src='/img/carrot.png', height='30', widht='30')
+                span= '10 carrots spent successfully'
+              .col-md-3
+                .pull-right.medium.green= ' $'+job.salary+'/'+job.salaryType
+
+            h4 Job Description
+            p= job.description || 'N/A'
+            h4 Duties and Responsibilities
+            p= job.jobRole || 'N/A'
+            h4 Requirements
+            p= job.requirement || 'N/A'
+            .row
+              .col-md-1
+                h5
+                  i.fa.fa-3x.fa-lightbulb-o
+              .col-md-8
+                h5.strong.gray PRO-TIP
+                div Not getting applications? you may not be highlighting the best points about working with your company. Be more descriptive about pros of working in your company :)
+              .col-md-3
+                h1
+                a.btn.btn-orange.btn-block(href="/employer/workers/invite/"+job._id) Invite Employees
+
+          .col-md-3.border-left
+            .align-center.bottom10
+              .medium.strong= job.companyName.toUpperCase()
+              br
+              .pad20
+                img.img-circle.pull-left(src='/img/logo.png', height='40', width='40')
+                small.strong.top10.left10.pull-left= 'Posted by ' + job.employerName
+            br
+            .top20
+              .medium.strong Job Post activity
+              h6.gray= 'Invited ( ' + job.invited.length + ' )'
+              if job.invited.length > 0
+                +displayWorkersList(job.shortlisted)
+              h6.gray= 'Applied ( ' + job.applied.length + ' )'
+              if job.applied.length > 0
+                +displayWorkersList(job.applied)
+              h6.gray= 'Shortlisted ( ' + job.shortlisted.length + ' )'
+              if job.shortlisted.length > 0
+                +displayWorkersList(job.shortlisted)
+            br
+            .align-center
+              a.btn.btn-blue.btn-block(href="") Share to Group
+              small.strong Share to groups for more results
+
+

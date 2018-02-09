@@ -1,0 +1,52 @@
+extends ../cmsLayout
+
+//- content
+block content
+  .container-fluid
+    .content-wrap
+      .align-center
+        img.left20(height='60' length='60' src='/img/carrot.png')
+        h3.strong Purchase Carrots
+        .medium Price points designed for anyone, choose the plan that fits your hiring strategy
+      br
+      br
+      br
+      .row
+        .col-md-4
+          .panel.align-center.pad20
+            strong PROFESSIONAL
+            .large.strong $350
+            br
+            p For the employers with huge positions to fill with strict deadlines
+            br
+            p.strong 1000 carrots
+            p 0.35&#162; per carrot
+            br
+            button.btn.btn-green Buy now
+
+        .col-md-4(style='margin-top: -30px;')
+          .panel.align-center.pad20
+            strong.green VALUE
+            .large.strong $90
+            br
+            p For the employers who have multiple positions to fill
+            br
+            p.strong 200 carrots
+            p 0.45&#162; per carrot
+            br
+            button.btn.btn-green Buy now
+
+        .col-md-4
+          .panel.align-center.pad20
+            strong CASUAL
+            .large.strong $25
+            br
+            p Good for one time hires without deadlines
+            br
+            p.strong 50 carrots
+            p 0.50&#162; per carrot
+            br
+            button.btn.btn-green Buy now
+      .align-center
+        p.medium For custom pricing for bulk orders, please tell us your quantity through our contact form
+        a.btn.btn-orange(href='/contact') Contact us

@@ -1,0 +1,59 @@
+extends ../cmsLayout
+
+block content
+  .container-fluid
+    .content-wrap
+      .large.strong Job Overview
+      p The status of your job posts
+      .row.tile_count
+        .col-md-3.col-xs-6
+          a(href='/employer/jobs?jobStatus=open')
+            .panel.dash-card-light-green
+              h3.strong= openJobsCount
+              span Open Jobs
+        .col-md-3.col-xs-6
+          a(href='/employer/jobs?jobStatus=urgent')
+            .panel.dash-card-red
+              h3.strong= urgentJobsCount
+              span Urgent Jobs
+        .col-md-3.col-xs-6
+          a(href='/employer/jobs?jobStatus=completed')
+            .panel.dash-card-gray
+              h3.strong= completedJobsCount
+              span Completed Jobs
+        .col-md-3.col-xs-6
+          a(href='/employer')
+            .panel.dash-card-orange
+              h3.strong 100
+              span Carrots Available
+              br
+              small.strong 73 carrots in transit
+      br
+      .large.strong Employee Overview
+      p The status of your employee activities
+      .row
+        .col-md-3.col-xs-6
+          a(href='/employer/workers?matchStatus=invited')
+            .dash-card-white
+              h3.strong= invitedWorkersCount
+              .medium Invitations
+              small.strong sent
+        .col-md-3.col-xs-6
+          a(href='/employer/workers?matchStatus=applied')
+            .dash-card-white
+              h3.strong= acceptedWorkersCount
+              .medium Applications
+              small.strong to be accepted
+        .col-md-3.col-xs-6
+          a(href='/employer/workers?matchStatus=shortlisted')
+            .dash-card-white
+              h3.strong= shortlistedWorkersCount
+              .medium Shortlisted
+              small.strong claim 5 carrots back when you update your actions
+        .col-md-3.col-xs-6
+          a(href='')
+            .dash-card-white
+              h3.strong= hiredWorkersCount
+              .medium Employed
+              small.strong successfully
+

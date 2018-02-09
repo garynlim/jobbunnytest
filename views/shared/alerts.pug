@@ -1,0 +1,10 @@
+.clearfix
+if error && error.length > 0
+  .alert.alert-danger
+    p= error
+if message && message.length > 0
+  .alert.alert-success
+    p= message
+if info && info.length > 0
+  .alert.alert-info
+    p= info

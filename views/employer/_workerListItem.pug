@@ -1,0 +1,53 @@
+//- locals passed into this template worker, job
+hr
+a(href='/employer/workers/'+worker._id+'?jobId='+job._id)
+  .row.pad20
+    .col-md-2
+      .align-center
+        img.img-fit.img-circle(src=worker.profilePic, height='100', width='100')
+    .col-md-10
+      .row
+        .col-md-3
+          .strong.capitalize.black= worker['first name'] + ' ' + worker['last name']
+          if job.jobType == "Full-time"
+            p.green.strong=  worker.application.salaryMonth + '$'
+          else if job.jobType == "Part-time"
+            p.green.strong= worker.application.salaryHour + '$'
+          p.strong.black= worker.gender
+        .col-md-2
+          strong.gray EXPERIENCE
+          p.strong.black 2 years
+        .col-md-3
+          strong.gray LANGUAGE
+          if worker.profile.languages.length > 0
+            p.strong.black= worker.profile.languages
+          else
+            p.strong.black N/A
+        .col-md-2
+          strong.gray PERSONALITY
+          if worker.personality && worker.personality.primary
+            if worker.personality.primary
+              p.strong.black= worker.personality.primary.name 
+
+            if worker.personality.secondary
+              p.strong.black= worker.personality.secondary.name 
+
+          else
+            p.black N/A
+
+        .col-md-2
+          .align-center
+            if worker.match && worker.match.matchStatus == 'invited'
+              a.btn.btn-red.btn-block(href='/api/matches/delete/'+worker.match._id) Cancel Invite
+
+            else if worker.match && worker.match.matchStatus == 'applied'
+              a.btn.btn-blue.btn-block(href='/api/matches/update/' + worker.match._id + '?matchStatus=shortlisted') Shortlist
+
+            else if worker.match && worker.match.matchStatus == 'shortlisted'
+              a.btn.btn-yellow.btn-block() Shortlisted
+
+            else if worker.match && worker.match.matchStatus == 'declined'
+              a.btn.btn-red.btn-block() User Declined 
+            else
+              a.btn.btn-green(href='/api/matches/'+session.user._id+'/'+job._id+'/'+worker._id+'?matchStatus=invited') Invite
+              small.strong use TWO carrot

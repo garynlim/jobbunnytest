@@ -1,0 +1,45 @@
+extends ../cmsLayout
+
+mixin jobsList(items)
+  each item in items
+    option(value=item)= item
+
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad10
+        p
+          span.large.strong Job Management
+
+        h4.strong= jobsCount + '  jobs'
+        each job in jobs
+          hr
+          a(href='/admin/jobs/'+job._id)
+            .pad10
+              .row
+                .col-md-2
+                  h6.gray COMPANY
+                  .strong.black.capitalize= job.companyName
+                .col-md-3
+                  .strong.capitalize.black= job.jobTitle
+                  span.green= ' $'+job.salary+'/'+job.salaryType
+                  p.black= 'Date created: ' + moment(job.createdAt).format('MM/DD/YYYY')
+                .col-md-1
+                  h6.gray JOB ID
+                  span.black(style='word-wrap: break-word;')= job._id
+                .col-md-2
+                  h6.gray WORK START
+                  p.black= moment(job.startDate).format('MM/DD/YYYY')
+                .col-md-2
+                  h6.gray FULFILMENT
+                  span.black= 'Required ' + job.requiredNumber
+                  br
+                  span.black= 'Shortlisted ' + 3
+                .col-md-2
+                  if job.jobStatus == 'completed'
+                    strong.pull-right.badge-gray Completed
+                  else if job.jobStatus == 'urgent'
+                    strong.pull-right.badge-red Urgent
+                  else
+                    strong.pull-right.badge-green Open
+                  br

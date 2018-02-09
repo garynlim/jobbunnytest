@@ -1,0 +1,15 @@
+extends ../cmsLayout
+
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad10
+        span.large.strong
+          span= 'Invite Employees for Job : ' + job.jobTitle
+          if job.workRegion || job.location
+            span=' @ '+job.workRegion+' '+job.location
+          br
+        p='Job ID: ' + job._id
+
+        each worker in workers
+          include _workerListItem.pug

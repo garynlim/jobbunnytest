@@ -1,0 +1,11 @@
+# environment variables used in the app
+# create a `.env` file and fill it with appropriate values
+
+# app running environment
+NODE_ENV=development
+
+# database
+DB_HOST=localhost
+DB_USER=
+DB_PASS=
+

@@ -1,0 +1,91 @@
+extends ../cmsLayout
+
+mixin generateFilterURL(applied_filters, search_query, filter_type, filter)
+  - var filterURL = "/admin/employers?"+filter_type+"="+filter;
+  if search_query
+    - filterURL = filterURL+'&searchQuery='+search_query
+  - var filter_values = [];
+  if applied_filters.length > 0
+    each f in applied_filters
+      each applied_filter, applied_filter_type in f
+        - filter_values.push(applied_filter)
+        if applied_filter_type != filter_type
+          - filterURL = filterURL+"&"+applied_filter_type+"="+applied_filter;
+  a.gray(class=filter_values.indexOf(filter) > -1 ? "active-filter" : "", href=filterURL)= filter
+
+mixin userFullName(user)
+  - var tmp = 'N/A';
+  if user.firstName
+    - tmp = user.firstName
+  if user.lastName
+    - tmp = tmp+' '+user.lastName
+  .strong.medium.black= tmp
+
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad10
+        .row
+          .col-md-5
+            .large.strong Employer Management
+          .col-md-7
+            form.form-inline(action='/admin/employers/search', method='get')
+              input.form-control(type='text', name='searchQuery', style="width: 300px;", placeholder='Search by employer name, company')
+              button.form-control(type='submit')
+                i.fa.fa-search
+        br
+        if employerFilters.length > 0
+          .filter
+            each f in employerFilters
+              each filter, filter_type in f
+                span= filter
+          br
+        .row
+          .col-md-3
+            p.strong
+              span= employersCount + '  employers'
+              if searchQuery
+                span= " macthing '"+ searchQuery +"'"
+          .col-md-9
+            .pull-right
+              a.dropdown-toggle(href='#filters', 'data-toggle'='collapse', 'aria-expanded'=true)
+                i.fa.fa-filter
+                span FILTER
+        #filters.collapse.in
+          .row
+            .col-md-2
+              strong DATE CREATED
+              ul.list-unstyled
+                each filter in ['earliest', 'latest']
+                  li.top10
+                    +generateFilterURL(employerFilters, searchQuery, 'createdAt', filter)
+            .col-md-2
+              strong LAST ACTIVITY
+              ul.list-unstyled
+                each filter in ['recent', 'old']
+                  li.top10
+                    +generateFilterURL(employerFilters, searchQuery, 'updatedAt', filter)
+
+        each e in employers
+          hr
+          a(href='/admin/employers/'+e._id)
+            .pad10
+              .row
+                .col-md-2
+                  if e.profilePic
+                    img.img-circle(height='75' length='75' src=e.profilePic)
+                  else
+                    img.img-circle(height='75' length='75' src="/img/logo.png")
+                .col-md-2
+                  .strong.black= e.email
+                  p.black= 'Date created: ' + moment(e.createdAt).format('MM/DD/YYYY')
+                .col-md-2
+                  h6.gray COMPANY NAME
+                  span.black= e.companyName || 'N/A'
+                .col-md-3
+                  h6.gray FULL NAME
+                  +userFullName(e)
+                .col-md-3
+                  h6.gray CARROTS
+                  span.black= 'Total : '+e.carrots.total
+

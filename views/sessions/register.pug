@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  .contentholder
+    h1.align-center Jobbunny Registration
+    .row
+      .col-md-3
+      .col-md-6
+        form(name='register' action='/api/users/register' method="post")
+          .form-group
+            label(for='email') Email
+            input#username.form-control(type='text' placeholder='Enter your email' name='email')
+          .form-group
+            label(for='password') Password
+            input#password.form-control(type='password' placeholder='Password' name='password')
+          .form-group
+            label(for='password-repeat') Password Confirmation
+            input#password-repeat.form-control(type='password' placeholder='Re-enter Password' name='passwordConf')
+          button.btn.btn-success.btn-block(type='submit') Register
+          br
+      .col-md-3

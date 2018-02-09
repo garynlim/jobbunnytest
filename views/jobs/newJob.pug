@@ -1,0 +1,66 @@
+extends ../layout
+
+//- content
+block content
+  .banner-cover.height50
+  // Post Job
+  .postjob
+    .container-fluid.container
+      .row
+        .col-sm-7
+          br
+          //- advanced form
+          if jobProfile == 'advanced'
+            .row
+              .col-sm-3
+                a.btn.btn-rectangle.btn-gray.btn-block(href='/newjob') BASIC JOB POST
+              .col-sm-6
+                a.btn.btn-rectangle.btn-green.btn-block(href='/newjob?profile=advanced') DETAILED JOB POST
+            p
+            h2.strong Post detailed job !
+            |
+            br
+            | Advanced Job post
+            |
+            br
+            include _jobForm.pug
+          //- basic form
+          else
+            .row
+              .col-sm-3
+                a.btn.btn-rectangle.btn-green.btn-block(href='/newjob') BASIC JOB POST
+              .col-sm-6
+                a.btn.btn-rectangle.btn-gray.btn-block(href='/newjob?profile=advanced') DETAILED JOB POST
+            p
+            h2.strong Post your Job in 3 minutes !
+            |
+            br
+            | Basic Job Post have less details and but are quick to fill. They are for jobs that do not need much explanations. 3 minutes is all you need to complete. Both are free to use!
+            |
+            br
+            //- basic job form template
+            include _jobForm.pug
+        .col-sm-4.col-sm-offset-1
+          br
+          h3.strong Post Jobs for free
+          ul
+            li No credit card required to start
+            li First
+              span.strong.green-font  100 credits free
+            li Post Jobs for free. use credits only when you shortlist
+            li Pay as low as
+              span.strong.green-font  $1SGD
+              span  per successful recruitment
+            li Complete simple tasks and you can even use it totally free
+          br
+          h3.strong Choose available employees after posting
+          p We have employees already available in the system that you can invite immediately.
+          p Wait no time awating for employees to apply to your job. Invite them immediately.
+
+          br
+          h3.strong Choose available employees after posting
+          p Our Job management system is built for recruiters and HR managers alike.
+          p Whats more, it comes totally free for managing your existing Jobs in a mordern user interface.
+
+block scripts
+  script(type='text/javascript', src='/js/jobForm.js')

@@ -1,0 +1,27 @@
+extends ../cmsLayout
+
+//- content
+block content
+  .card.pad20
+    //- advanced form
+    if jobProfile == 'advanced'
+      .row
+        .col-sm-3
+          a.btn.btn-rectangle.btn-default.btn-block(href='/employer/jobs/new') BASIC JOB POST
+        .col-sm-3
+          a.btn.btn-rectangle.btn-primary.btn-block(href='/employer/jobs/new?profile=advanced') DETAILED JOB POST
+      br
+      //- basic job form template
+      include ../jobs/_jobForm.pug
+    else
+      .row
+        .col-sm-3
+          a.btn.btn-rectangle.btn-primary.btn-block(href='/employer/jobs/new') BASIC JOB POST
+        .col-sm-3
+          a.btn.btn-rectangle.btn-default.btn-block(href='/employer/jobs/new?profile=advanced') DETAILED JOB POST
+      br
+      //- basic job form template
+      include ../jobs/_jobForm.pug
+
+block scripts
+  script(type='text/javascript', src='/js/jobForm.js')

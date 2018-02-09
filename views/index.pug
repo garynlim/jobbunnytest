@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  //- Hero
+  .banner-cover
+    .container-fluid
+      .hero
+        h1.strong  Hop Hop do you need a job?
+        h3.normal Meet the ultimate job search assistant. No signup required !
+        br
+        br
+        br
+        form.form-inline(action='/search' accept-charset='UTF-8' method='post')
+          input#search-field.form-control.right10(type='text' size="50" name='query' placeholder='Search here' autofocus)
+          input.btn.btn-md#search-button(type='submit' name='commit' value='Search' data-disable-with='Search')
+        img.top20(src='img/Jobbunny.png', style='height:100%;width:200px')
+      //- br
+      //- .row
+      //-   .col-md-3
+      //-   .col-md-3.col-xs-12
+      //-     a.btn-lg.btn-success(href='http://www.facebook.com/jobbunny') For Jobseekers
+      //-   .col-md-3.col-xs-12
+      //-     a.btn-lg.btn-warning(href='/employeesearch') For Employers
+      //-   .col-md-3

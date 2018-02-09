@@ -1,0 +1,17 @@
+extends ../cmsLayout
+
+block content
+  .container-fluid
+    .content-wrap
+      p.large.strong Notifications
+      if notifications.length > 0
+        each notification in notifications
+          .panel.pad10
+            a(href=notification.onClickPath+'?notificationId='+notification._id)
+              i.fa.fa-bell(class=notification.seen ? 'green' : 'red')
+              span= ' '+notification.message
+            .pull-right
+              span= moment(notification.createdAt).fromNow()
+      else
+        .panel.pad10
+          p.red No new notification

@@ -1,0 +1,110 @@
+extends ../cmsLayout
+
+mixin generateFilterURL(applied_filters, filter_type, filter)
+  - var filterURL = "/employer/jobs?"+filter_type+"="+filter;
+  - var filter_values = [];
+  if applied_filters.length > 0
+    each f in applied_filters
+      each applied_filter, applied_filter_type in f
+        - filter_values.push(applied_filter)
+        if applied_filter_type != filter_type
+          - filterURL = filterURL+"&"+applied_filter_type+"="+applied_filter;
+  a.gray(class=filter_values.indexOf(filter) > -1 ? "active-filter" : "", href=filterURL)= filter
+
+//- mixin workersWithMatchStatus(matches, )
+
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad10
+        p.large.strong Job Management
+        if jobFilters.length > 0
+          .filter
+            each f in jobFilters
+              each filter, filter_type in f
+                span= filter
+          br
+        .row
+          .col-md-3
+            p.strong= jobsCount + '  matches'
+          .col-md-9
+            .pull-right
+              a.dropdown-toggle(href='#filters', 'data-toggle'='collapse', 'aria-expanded'=true)
+                i.fa.fa-filter
+                span FILTER
+        #filters.open.in
+          .row
+            .col-md-2
+              strong STATUS
+              ul.list-unstyled
+                each filter in ['open', 'urgent', 'completed']
+                  li.top10
+                    +generateFilterURL(jobFilters, 'jobStatus', filter)
+            .col-md-2
+              strong JOB TYPE
+              ul.list-unstyled
+                each filter in ['Part-time', 'Full-time']
+                  li.top10
+                    +generateFilterURL(jobFilters, 'jobType', filter)
+            if jobType == 'Part-time'
+              .col-md-2
+                strong INDUSTRY
+                ul.list-unstyled
+                  each filter in ["Events", "Sales", "Data Entry", "Food & Beverage", "Logistics", "Retail"]
+                    li.top10
+                      +generateFilterURL(jobFilters, 'jobIndustry', filter)
+            else if jobType == 'Full-time'
+              .col-md-2
+                strong INDUSTRY
+                ul.list-unstyled
+                  each filter in ["Accounting / Finance", "Admin / HR", "Sales / Marketing", "Arts Design Media", "Computer/Technology", "Training & education", "Engineering", "Service / Logistics"]
+                    li.top10
+                      +generateFilterURL(jobFilters, 'jobIndustry', filter)
+
+        each job in jobs
+          hr
+          a(href='/employer/jobs/'+job._id)
+            .pad10
+              .row
+                .col-md-2
+                  .strong.black.capitalize= job.companyName
+                .col-md-3
+                  .strong.capitalize.black= job.jobTitle
+                  span.green= ' $'+job.salary+'/'+job.salaryType
+                  p.black= 'Date created: ' + moment(job.createdAt).format('MM/DD/YYYY')
+                .col-md-1
+                  h6.gray JOB ID
+                  span.black(style='word-wrap: break-word;')= job._id
+                .col-md-2
+                  h6.gray WORK START
+                  p.black= moment(job.startDate).format('MM/DD/YYYY')
+                .col-md-2
+                  h6.gray FULFILMENT
+                  span.black= 'Required ' + job.requiredNumber
+                  br
+                  span.black= 'Shortlisted ' + job.shortlisted.length
+                .col-md-2
+                  if job.jobStatus == 'completed'
+                    strong.pull-right.badge-gray Completed
+                  else if job.jobStatus == 'urgent'
+                    strong.pull-right.badge-red Urgent
+                  else
+                    strong.pull-right.badge-green Open
+                  br
+                  br
+                  if job.jobStatus == 'open'
+                    a.pull-right.top10(href='/api/jobs/mark/'+job._id+'?status=completed') Mark as complete
+                  else
+                    a.pull-right.top10(href='/api/jobs/mark/'+job._id+'?status=open') Mark as open
+              .row
+                .col-md-3
+                  h6.gray= 'Invited (' + job.invited.length + ')'
+                .col-md-3
+                  h6.gray= 'Applied (' + job.applied.length + ')'
+                .col-md-3
+                  h6.gray= 'Shortlisted (' + job.shortlisted.length + ')'
+                .col-md-3
+                  a.btn.btn-orange.btn-block.btn-warning(href="/employer/workers/invite/"+job._id) Invite more employees
+
+
+

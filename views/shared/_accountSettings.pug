@@ -1,0 +1,41 @@
+p
+  span.medium.strong Account Settings
+.card.pad20
+  form.form-horizontal(action="/api/users/update", method="post", enctype="multipart/form-data")
+    .form-group
+      label.control-label.col-sm-2.small FIRST NAME
+      .col-sm-10
+        input.form-control(type="text", placeholder="Enter first name", name="firstName", value=user && user.firstName)
+    |
+    .form-group
+      label.control-label.col-sm-2.small LAST NAME
+      .col-sm-10
+        input.form-control(type="text", placeholder="Enter last name", name="lastName", value=user && user.lastName)
+    |
+    .form-group
+      label.control-label.col-sm-2.small EMAIL
+      .col-sm-10
+        input.form-control(type="text", placeholder="Enter email", name="email", value=user && user.email, required)
+    |
+    .form-group
+      label.control-label.col-sm-2.small COMPANY NAME
+      .col-sm-10
+        input.form-control(type="text", placeholder="Enter your company name", name="companyName", value=user && user.companyName)
+    |
+    .form-group
+      label.control-label.col-sm-2.small PROFILE PIC
+      |
+      .col-sm-10
+        input.form-control(type="file", name="profilePic")
+    |
+    .form-group
+      label.col-sm-2(for='password') Password
+      .col-sm-10
+        input#password.form-control(type='password' placeholder='Password' name='password')
+    .form-group
+      label.col-sm-2(for='password-repeat') Password Confirmation
+      .col-sm-10
+        input#password-repeat.form-control(type='password' placeholder='Re-enter Password' name='passwordConf')
+    button.btn-lg.btn-warning.pull-right(type='submit') Save
+  br
+  br

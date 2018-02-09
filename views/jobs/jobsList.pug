@@ -1,0 +1,105 @@
+extends ../layout
+
+mixin generateFilterURL(applied_filters, query, filter_type, filter)
+  - var filterURL = "/jobs?queryStr="+query+"&"+filter_type+"="+filter;
+  - var filter_values = [];
+  if applied_filters.length > 0
+    each f in applied_filters
+      each applied_filter, applied_filter_type in f
+        - filter_values.push(applied_filter)
+        if applied_filter_type != filter_type
+          - filterURL = filterURL+"&"+applied_filter_type+"="+applied_filter;
+  a.gray(class=filter_values.indexOf(filter) > -1 ? "active-filter" : "", href=filterURL)= filter
+
+
+//- content
+block content
+  .banner-cover.height50
+  // Post Job
+  .postjob
+    .container-fluid.container
+      br
+      .row
+        .col-md-2
+          p.large.strong Job Search
+        .col-md-10
+          form.form-inline(action='/search' accept-charset='UTF-8' method='post')
+            input.form-control(type='text', name='query', placeholder='Search')
+            button.form-control.btn-orange(type='submit') Search
+      if jobs
+        if jobFilters && jobFilters.length > 0
+          .filter
+            each f in jobFilters
+              each filter, filter_type in f
+                span= filter
+          br
+        .row
+          .col-md-10
+            p.medium.strong= jobsCount + "  Matches for \" "+query+" \""
+            br
+          .col-md-2
+            a.dropdown-toggle(href='#filters', 'data-toggle'='collapse', 'aria-expanded'=true)
+              .pull-right
+                i.fa.fa-filter
+                span FILTER
+        #filters.open.in
+          .row
+            .col-md-2
+              strong JOB TYPE
+              ul.list-unstyled
+                each filter in ['Part-time', 'Full-time']
+                  li.top10
+                    +generateFilterURL(jobFilters, query, 'jobType', filter)
+            if jobType == 'Part-time'
+              .col-md-2
+                strong INDUSTRY
+                ul.list-unstyled
+                  each filter in ["Events", "Sales", "Data Entry", "Food & Beverage", "Logistics", "Retail"]
+                    li.top10
+                      +generateFilterURL(jobFilters, query, 'jobIndustry', filter)
+            else if jobType == 'Full-time'
+              .col-md-2
+                strong INDUSTRY
+                ul.list-unstyled
+                  each filter in ["Accounting / Finance", "Admin / HR", "Sales / Marketing", "Arts Design Media", "Computer/Technology", "Training & education", "Engineering", "Service / Logistics"]
+                    li.top10
+                      +generateFilterURL(jobFilters, query, 'jobIndustry', filter)
+            .col-md-2
+              strong LOCATION
+              ul.list-unstyled
+                each filter in ['North', 'West', 'East', 'Central', 'Central Business District']
+                  li.top10
+                    +generateFilterURL(jobFilters, query, 'workRegion', filter)
+            .col-md-2
+              strong WORKING HOURS
+              ul.list-unstyled
+                each filter in ['Weekdays', 'Weekends', 'Both weekdays and weekends']
+                  li.top10
+                    +generateFilterURL(jobFilters, query, 'workPeriod', filter)
+        br
+        each job in jobs
+          .job-item
+            a(href='/jobs/'+job._id)
+              .pad10
+                .row
+                  .col-md-1
+                    img(height='75' length='75' src="/img/logo.png")
+                  .col-md-9
+                    .large.strong.capitalize.black= job.jobTitle
+                    p
+                      span= job.companyName
+                      if job.employerName
+                        span=' posted by '+job.employerName
+                      p= job.description
+                    p
+                      i.fa.fa-clock-o
+                      span= ' posted ' + moment(job.createdAt).fromNow()
+                  .col-md-2
+                    .align-center
+                      .medium
+                        i.fa.fa-map-marker
+                        br
+                        span= job.workRegion+', '+job.location
+                      br
+                      a.btn.btn-blue.btn-warning(href="/jobs/"+job._id) Apply in Messenger
+

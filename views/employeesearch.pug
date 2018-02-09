@@ -1,0 +1,51 @@
+extends layout
+
+block content
+  // Hero
+  .container-fluid
+    .hero
+      img(src='img/Jobbunny.png', style='padding-top:1em;height:100%;width:100px')
+      br
+      h1  Employees that match your profile
+      br
+      .contentholder
+        .row
+          .col-sm-2
+            .employeecard
+              img(src='http://images6.fanpop.com/image/photos/38600000/Rainie-yang-rainie-yang-38695002-450-450.jpg')
+              br
+              h4  Rainie Yang 
+              p
+                | Diploma in Business Studies
+              p
+                | $8/hour
+              p
+                | 2-3 Exp
+              p
+                a.btn-sm.btn-warning(href='employeeprofile.html') View Profile
+              if job
+                a.btn-sm.btn-warning Offer Job
+            
+          if employees
+            each bunny in employees
+              .col-sm-2
+                .employeecard
+                  img(src=bunny['profilePic'])
+                  br
+                  h4=(bunny['first name'] + ' ' + bunny['last name'])
+                  p=bunny['qualificationSubject']
+                  p=bunny['qualificationSchool']
+                  if bunny['salaryHour']
+                    p=('$' + bunny['salaryHour'] + '/hour')
+                  p
+                    a.btn-sm.btn-warning(href='employeeprofile') View Profile
+                  if job
+                    .job-offer.click
+                      .btn-sm.btn-warning.job-offer-btn Offer Job
+                      .hide 
+                        .company=job['companyName']
+                        .description=job['description']
+                        .userId=bunny['chatfuelUserId']
+
+block scripts
+  script(type='text/javascript', src='/js/offerjob.js')

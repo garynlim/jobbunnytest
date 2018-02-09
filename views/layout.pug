@@ -1,0 +1,50 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(charset='utf-8')
+    
+    block metas
+
+    // Bootstrap
+    link(href='/css/bootstrap.css', rel='stylesheet')
+    link(href='/css/custom.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css')
+    // Time picker
+    link(href='/css/bootstrap-clockpicker.min.css', rel='stylesheet')
+    link(href='/css/font-awesome.css', rel='stylesheet')
+
+  body.yellow-bg
+    //- Navigation
+    .header
+      nav.navbar
+        //- Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button' data-toggle='collapse' data-target='#nav' aria-expanded='false')
+            span.sr-only Toggle navigation
+            i.fa.fa-sort-desc
+          a.navbar-brand(href='/')
+            h1 jobbunny.co
+        #nav.collapse.navbar-collapse
+          ul.nav.nav-pills
+            li.left20(role='presentation')
+              a(href='/about') How it works?
+            li.left20(role='presentation')
+              a(href='/contact') Contact
+            li.left20(role='presentation')
+              a(href='/register') Signup
+            li.left20(role='presentation')
+              a(href='/login') Login
+            .right
+              .medium.strong For Employers
+              a.btn.btn-md.btn-green.top10(href='/newjob') Post job for free
+              br
+              small.top10 3 minutes is all you need
+    //- alert/error messages
+    .container-fluid
+      include shared/alerts
+    //- content
+    block content
+  //- footer
+  include shared/footer

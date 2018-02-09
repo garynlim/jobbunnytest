@@ -1,0 +1,121 @@
+extends ../cmsLayout
+
+mixin generateFilterURL(applied_filters, search_query, filter_type, filter)
+  - var filterURL = "/admin/workers?"+filter_type+"="+filter;
+  if search_query
+    - filterURL = filterURL+'&searchQuery='+search_query
+  - var filter_values = [];
+  if applied_filters.length > 0
+    each f in applied_filters
+      each applied_filter, applied_filter_type in f
+        - filter_values.push(applied_filter)
+        if applied_filter_type != filter_type
+          - filterURL = filterURL+"&"+applied_filter_type+"="+applied_filter;
+  a.gray(class=filter_values.indexOf(filter) > -1 ? "active-filter" : "", href=filterURL)= filter
+
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad10
+        .row
+          .col-md-5
+            .large.strong Employee Management
+          .col-md-7
+            form.form-inline(action='/admin/workers', method='get')
+              input.form-control(type='text', name='searchQuery', style="width: 300px;", placeholder='Search by employee name')
+              button.form-control(type='submit')
+                i.fa.fa-search
+        br
+        if workerFilters.length > 0
+          .filter
+            each f in workerFilters
+              each filter, filter_type in f
+                span= filter
+          br
+        .row
+          .col-md-4
+            p.strong
+              span= workersCount + '  employees'
+              if searchQuery
+                span= " macthing '"+ searchQuery +"'"
+          .col-md-8
+            .pull-right
+              a.dropdown-toggle(href='#filters', 'data-toggle'='collapse', 'aria-expanded'=true)
+                i.fa.fa-filter
+                span FILTER
+        #filters.collapse.in
+          .row
+            .col-md-2
+              strong DATE JOINED
+              ul.list-unstyled
+                each filter in ['earliest', 'latest']
+                  li.top10
+                    +generateFilterURL(workerFilters, searchQuery, 'createdAt', filter)
+            .col-md-2
+              strong JOB TYPE
+              ul.list-unstyled
+                each filter in ['Part-timer', 'Full-timer']
+                  li.top10
+                    +generateFilterURL(workerFilters, searchQuery, 'jobType', filter)
+            .col-md-2
+              strong GENDER
+              ul.list-unstyled
+                each filter in ['male', 'female']
+                  li.top10
+                    +generateFilterURL(workerFilters, searchQuery, 'gender', filter)
+
+        .row
+          each worker in workers
+            hr
+            a(href='/admin/workers/'+worker._id)
+              .row.pad20
+                .col-md-2
+                  .align-center
+                    img.img-fit.img-circle(src=worker.profilePic, height='100', width='100')
+                .col-md-10
+                  .row
+                    .col-md-3
+                      .strong.capitalize.black= worker['first name'] + ' ' + worker['last name']
+                      p.green.strong= ' $'+worker.salaryHour
+                      p.strong.black= worker.gender
+                    .col-md-2
+                      strong.gray EXPERIENCE
+                      p.strong.black 2 years
+                    .col-md-3
+                      strong.gray LANGUAGE
+                      if worker.profile.languages.length > 0
+                        p.strong.black= worker.profile.languages
+                      else
+                        p.strong.black N/A
+                    .col-md-4
+                      strong.gray PERSONALITY
+                      if worker.personality
+                        if worker.personality.primary == 'A' || worker.personality.secondary == 'A'
+                          .strong.black Driver
+                        else if worker.personality.primary == 'B' || worker.personality.secondary == 'B'
+                          .strong.black Analytical
+                        else if worker.personality.primary == 'C' || worker.personality.secondary == 'C'
+                          .strong.black Amiable
+                        else if worker.personality.primary == 'D' || worker.personality.secondary == 'D'
+                          .strong.black Expressive
+                        else
+                          p.black N/A
+                      else
+                        p.black N/A
+//- each worker in workers
+//-   a(href='/admin/workers/'+worker._id)
+//-     .col-md-3
+//-       .card.pad10.align-center
+//-         if worker.profilePic
+//-           img.img-fit(height='100' length='100' src=worker.profilePic)
+//-         else
+//-           img(height='100' length='100' src='/img/Jobbunny.png')
+//-         .pad10
+//-           .medium.strong.capitalize= worker['first name'] + ' ' + worker['last name']
+//-           span.green.strong= ' $'+worker.salaryHour
+//-           br
+//-           span.strong= worker.gender
+//-           br
+//-           span.strong= worker.messengerUserId
+
+

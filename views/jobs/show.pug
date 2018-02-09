@@ -1,0 +1,61 @@
+extends ../layout
+
+//- content
+block content
+  .banner-cover.height50
+  // Post Job
+  .postjob
+    .container-fluid.container
+      if job.coverImage
+        img.top20(src=job.coverImage, style='height:300px;width:100%')
+      .row
+        .col-md-9
+          h1= job.jobTitle
+          p= job.companyName
+          .col-md-10
+            p
+              i.fa.fa-map-marker
+              span= job.workRegion + ', '
+              span= job.location
+            p
+              i.fa.fa-clock-o
+              span= job.jobType + ', '
+              span= job.startTime + '-' + job.endTime + ', '
+              span= job.workPeriod
+            p
+              i.fa.fa-calendar
+              span= 'Starts on ' + moment(job.startDate).format('MM/DD/YYYY') + ', '
+              span= 'Ends on ' + moment(job.endDate).format('MM/DD/YYYY')
+            br
+            h4 Job Description
+            p= job.description
+            br
+            h4 Duties and Responsibilities
+            p= job.jobRole
+            br
+            h4 Requirements
+            p= job.requirement
+            br
+            br
+            .col-md-1
+              h5
+                i.fa.fa-lightbulb-o
+            .col-md-11
+              h5 PRO-TIP
+              p Recruiters will feel more certain when they have more information about you. Increase your chances of hire by being detailed in your job experience description
+          .col-md-2
+            h4.green-font= '$'+job.salary+'/'+job.salaryType
+        .col-md-3
+          h2= job.companyName
+          p= 'Posted by ' + job.employerName
+          br
+
+          p
+            h4.align-center How to Apply?
+            | Talk to our jobbunny chatbot to apply directly, no account creation needed! Simply enter the job id below when asked in the bot.
+            br
+            br
+            h5.align-center Job ID
+            p.align-center= job._id
+            a.btn.btn-block.btn-blue(href='//m.me/jobbunny?ref=applyToJob', target="_blank")  Apply on Messenger
+

@@ -1,0 +1,140 @@
+extends ../cmsLayout
+
+mixin generateActionButtonForWorker(matches)
+  //- duplicate matches allowed hence pulling the first match
+  - var match = matches[0] || matches
+  if match.matchStatus == 'invited'
+    p.badge-green Invited
+    a.btn.btn-red.btn-block(href='/api/matches/delete/'+match._id) Cancel Invite
+  else if match.matchStatus == 'applied'
+    p.badge-green Applied
+    a.btn.btn-yellow.btn-block(href="/api/matches/update/"+match._id+"?matchStatus=shortlisted") Shortlist
+  else if match.matchStatus == 'shortlisted'
+    p.badge-blue Shortlisted
+    if match.employed
+      p.badge-yellow employed
+    else
+      a.btn.btn-green.btn-block(href="/api/matches/employed/"+match._id) Employed
+
+mixin showContactInformation(worker, matches)
+  - var match = matches[0] || matches
+  if match.matchStatus == 'shortlisted' || match.matchStatus == 'employed'
+    h6.gray HANDPHONE NUMBER
+    p= (worker.profile && worker.profile.handphone) || 'N/A'
+    h6.gray EMAIL ADDRESS
+    p= (worker.profile && worker.profile.emailAddress) || 'N/A'
+  else
+    i.fa.fa-3x.fa-lock
+    p.medium.strong Contact Information
+    .pad20
+      h6.gray HANDPHONE NUMBER
+      p Locked
+      h6.gray EMAIL ADDRESS
+      p Locked
+      br
+      p.strong How to unlock?
+      p.gray= worker['first name'] + ' ' + worker['last name']+ "'s contact will only be unlocked when he accepts your invitation"
+      p.gray Only 1 carrot will be deducted for each invite
+      p.gray= 'Remaining carrots will be deducted when ' + worker['first name'] + ' accepts your invite'
+      p.strong= 'Invite ' + worker['first name'] + ' with'
+
+//- content
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad20
+        p
+          strong.large Employee Profile
+        .row
+          .col-md-3
+            .align-center
+              if worker.profilePic
+                img.img-fit.img-circle(src=worker.profilePic, height='100', width='100')
+                br
+                br
+                .strong.capitalize= worker['first name'] + ' ' + worker['last name']
+                p.green.strong= ' $'+worker.salaryHour
+                p.strong= worker.gender
+                strong.gray EXPERIENCE
+                p.strong 2 years
+                br
+                strong.gray LANGUAGE
+                if worker.profile.languages.length > 0
+                  p.strong= worker.profile.languages
+                else
+                  p.strong N/A
+                br
+                strong.gray SAVINGS
+                p= 'You save $10 when you hire ' + worker['first name'] + ' ' + worker['last name'] + ' with his expected salary.'
+          .col-md-6
+            .pad20
+              h5.strong About Me
+              p= worker.profile.self_description || 'N/A'
+              br
+              h5.strong Job Experience
+              if worker.experience.length > 0
+                each experience in worker.experience
+                  strong= experience.title  + ' @ ' + experience.company
+                  p.gray= experience.description
+              else
+                p N/A
+              br
+              h5.strong Personality Metrics
+              if worker.personality
+                if worker.personality.primary == 'A' || worker.personality.secondary == 'A'
+                  h5.strong.red Driver
+                  p The Driver is a high achiever – a mover and shaker who is definitely not averse to risk. The individual is extroverted, strong-willed, direct, practical, organised, forceful, and decisive. Look for someone who tells it the way it is and is very persuasive. Watch out or you’ll be worn down and bowled over. A driver is task- rather than relationship-oriented and wants immediate results.
+                else if worker.personality.primary == 'B' || worker.personality.secondary == 'B'
+                  h5.strong.green Analytical
+                  p The Analytical is polite but reserved, logical, fact- and task-oriented. This person’s focus is on precision and perfection. Other strengths include persistence, diligence, caution, and a systematic approach.
+                else if worker.personality.primary == 'C' || worker.personality.secondary == 'C'
+                  h5.strong.yellow Amiable
+                  p Devoted, consistent, dependable, and loyal, the Amiable is a hard worker and will persevere long after others have given up. He or she is a team player, cooperative and easy to get along with, trustful, sensitive and a good listener. Working in groups with cooperative individuals, the Amiable tries to avoid confrontation. He or she enjoys company, performs best in a stable environment, and often has a stabilizing effect on others.
+                else if worker.personality.primary == 'D' || worker.personality.secondary == 'D'
+                  h5.strong.blue Expressive
+                  p The Expressive, a verbally adept personality, is engaging, accommodating, supportive of others, persuasive, socially adept, and relationship- rather than task-oriented. He or she loves to be one of the gang, and is always ready for something new and exciting, especially if the gang is ready to participate. Additional strengths include enthusiasm, diplomatic skills, and the ability to inspire others.
+              else
+                p N/A
+
+          .col-md-3
+            .border-left.align-center
+              +showContactInformation(worker, worker.matches)
+              if worker.matches && worker.matches.length > 0
+                .pad20
+                  +generateActionButtonForWorker(worker.matches)
+              else
+                .pad20
+                  a.btn.btn-green.btn-block(href='/api/matches/'+session.user._id+'/'+jobId+'/'+worker._id+'?matchStatus=invited') Your Original Salary
+                  p.small.gray Uses TWO carrot
+                  a.btn.btn-orange.btn-block(href='/api/matches/'+session.user._id+'/'+jobId+'/'+worker._id+'?matchStatus=invited&carrots=5') Custom Salary
+                  p.small.gray Uses FIVE carrot
+
+        .row
+          .col-md-1
+            h5
+              i.fa.fa-3x.fa-lightbulb-o
+          .col-md-11
+            h5.strong.gray PRO-TIP
+            div Employees are also uncertain about Jobs as employers.
+            div Upload a profile picture and company logo to increase your credibility
+
+//- button.btn.btn-warning(type='button', data-toggle='modal', 'data-target'='#invite-popup') Send an Invite -1 carrot
+
+//- block modal
+//-   //- popup modal
+//-   #invite-popup.modal.fade(tabindex='-1', role='dialog', aria-labelledby='invite-popup-label', aria-hidden=true, data-backdrop=false)
+//-     .modal-dialog(role='document')
+//-       .modal-content.pad20
+//-         .modal-header
+//-           button.close(type='button', data-dismiss='modal', aria-label='Close')
+//-             span(aria-hidden=true) &times;
+//-           .large.strong(id='invite-popup-label')= 'What salary will you offer ' + worker['first name']
+//-         .modal-body.align-center
+//-           a.btn.btn-warning(href='') My Original Salary   $10/hr
+//-           br
+//-           br
+//-           a.btn.btn-success(href='') His Expected Salary   $9/hr
+
+
+
+

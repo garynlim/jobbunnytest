@@ -1,0 +1,65 @@
+extends ../cmsLayout
+
+//- content
+block content
+  .container-fluid
+    .content-wrap
+      .panel.pad20
+        p
+          strong.large Employee Profile
+        .row
+          .col-md-3
+            .align-center
+              if worker.profilePic
+                img.img-fit.img-circle(src=worker.profilePic, height='100', width='100')
+                br
+                br
+                .strong.capitalize= worker['first name'] + ' ' + worker['last name']
+                p.green.strong= ' $'+worker.salaryHour
+                p.strong= worker.gender
+                strong.gray EXPERIENCE
+                p.strong 2 years
+                br
+                strong.gray LANGUAGE
+                if worker.profile.languages.length > 0
+                  p.strong= worker.profile.languages
+                else
+                  p.strong N/A
+          .col-md-6
+            .pad20
+              h5.strong About Me
+              p= worker.profile.self_description || 'N/A'
+              br
+              h5.strong Job Experience
+              if worker.experience.length > 0
+                each experience in worker.experience
+                  strong= experience.title  + ' @ ' + experience.company
+                  p.gray= experience.description
+              else
+                p N/A
+              br
+              h5.strong Personality Metrics
+              if worker.personality
+                if worker.personality.primary == 'A' || worker.personality.secondary == 'A'
+                  h5.strong.red Driver
+                  p The Driver is a high achiever – a mover and shaker who is definitely not averse to risk. The individual is extroverted, strong-willed, direct, practical, organised, forceful, and decisive. Look for someone who tells it the way it is and is very persuasive. Watch out or you’ll be worn down and bowled over. A driver is task- rather than relationship-oriented and wants immediate results.
+                else if worker.personality.primary == 'B' || worker.personality.secondary == 'B'
+                  h5.strong.green Analytical
+                  p The Analytical is polite but reserved, logical, fact- and task-oriented. This person’s focus is on precision and perfection. Other strengths include persistence, diligence, caution, and a systematic approach.
+                else if worker.personality.primary == 'C' || worker.personality.secondary == 'C'
+                  h5.strong.yellow Amiable
+                  p Devoted, consistent, dependable, and loyal, the Amiable is a hard worker and will persevere long after others have given up. He or she is a team player, cooperative and easy to get along with, trustful, sensitive and a good listener. Working in groups with cooperative individuals, the Amiable tries to avoid confrontation. He or she enjoys company, performs best in a stable environment, and often has a stabilizing effect on others.
+                else if worker.personality.primary == 'D' || worker.personality.secondary == 'D'
+                  h5.strong.blue Expressive
+                  p The Expressive, a verbally adept personality, is engaging, accommodating, supportive of others, persuasive, socially adept, and relationship- rather than task-oriented. He or she loves to be one of the gang, and is always ready for something new and exciting, especially if the gang is ready to participate. Additional strengths include enthusiasm, diplomatic skills, and the ability to inspire others.
+              else
+                p N/A
+
+          .col-md-3
+            .border-left.align-center
+              .pad20
+                h6.gray HANDPHONE NUMBER
+                p= worker.profile.handphone || 'N/A'
+                h6.gray EMAIL ADDRESS
+                p= worker.profile.emailAddress || 'N/A'
+

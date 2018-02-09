@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  // Contact
+  .container-fluid
+    .contentholder
+      .row
+        .col-sm-2
+        .col-sm-2
+          img(src="img/Jobbunny.png", style="padding-top:5em;height:100%;width:200px")
+        .col-sm-8
+          .row
+            .col-sm-6
+              h2 Contact Us
+              p
+                | Hop Hop! Do you have any enquiries or feedback? Let us know!
+                form.form-horizontal
+                  .form-group
+                    label.control-label.col-sm-2 Name:
+                    |
+                    .col-sm-10
+                      input.form-control(type="text", placeholder="Your Name")
+                  |
+                  |
+                  .form-group
+                    label.control-label.col-sm-2 Email:
+                    |
+                    .col-sm-10
+                      input.form-control(type="email", placeholder="Your Email")
+                  |
+                  |
+                  .form-group
+                    label.control-label.col-sm-2 Subject
+                    |
+                    .col-sm-10
+                      select.form-control
+                        option General Enquiry
+                        |
+                        option Business Collaborations
+                        |
+                        option Investor Relations
+                        |
+                        option Feedback
+                  |
+                  |
+                  .form-group
+                    label.control-label.col-sm-2 Message
+                    |
+                    .col-sm-10
+                      textarea.form-control(rows="5", placeholder="Write your message here")
+                  |
+                  button.btn-sm.btn-warning.pull-right(type="submit")
+                    | Send Message
+                    i.fa.fa-paper-plane(aria-hidden="true")
+  br
+  br
